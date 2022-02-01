@@ -4,9 +4,10 @@ import telegram
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from tracker import get_prices
-from credentials import TOKEN
+from dotenv import dotenv_values
 
-telegram_bot_token = TOKEN
+creds = dotenv_values('.env')
+telegram_bot_token = creds['TOKEN']
 
 updater = Updater(token=telegram_bot_token, use_context=True)
 dispatcher = updater.dispatcher
@@ -16,7 +17,7 @@ def start(update, context):
     chat_id = update.effective_chat.id
     message = ""
 
-    crypto_data = get_prices()
+    crypto_data = get_prices()    # get the coin data
     for i in crypto_data:
         coin = crypto_data[i]["coin"]
         price = crypto_data[i]["price"]
